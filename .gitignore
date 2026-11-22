@@ -1,0 +1,17 @@
+node_modules/
+.expo/
+dist/
+web-build/
+coverage/
+npm-debug.log*
+
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+android/.gradle/
+ios/Pods/
+.env
+.DS_Store

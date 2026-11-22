@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="Tap Link classroom attendance">
+    <title>Tap Link — Attendance</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%234268e8'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-size='36' font-weight='700' fill='white'%3ET%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Tap Link home">
+          <span class="brand-mark" aria-hidden="true">T</span>
+          <span>tap link</span>
+        </a>
+        <div id="account-bar" class="account-bar" hidden>
+          <span id="account-label" class="account-label"></span>
+          <button id="logout-button" class="button button-quiet" type="button">Log out</button>
+        </div>
+      </header>
+
+      <section id="login-view" class="login-layout">
+        <div class="welcome-copy">
+          <span class="eyebrow">ATTENDANCE, MADE SIMPLE</span>
+          <h1>Be there.<br><span>We’ll keep track.</span></h1>
+          <p>Tap Link helps teachers manage class attendance and lets students check in when they arrive.</p>
+          <div class="welcome-note">
+            <span class="note-icon" aria-hidden="true">✦</span>
+            <span>Manual check-in is always available.</span>
+          </div>
+        </div>
+
+        <form id="login-form" class="login-card">
+          <div class="card-heading">
+            <span class="eyebrow">WELCOME TO TAP LINK</span>
+            <h2 id="auth-title">Sign in to continue</h2>
+            <p id="auth-description">Use an account or create a new one.</p>
+          </div>
+          <div class="auth-tabs" role="tablist" aria-label="Account options">
+            <button id="sign-in-tab" class="auth-tab is-active" type="button" role="tab" aria-selected="true">Sign in</button>
+            <button id="create-account-tab" class="auth-tab" type="button" role="tab" aria-selected="false">Create account</button>
+          </div>
+          <fieldset class="role-picker">
+            <legend>I’m a</legend>
+            <label class="role-option">
+              <input type="radio" name="role" value="student" checked>
+              <span class="role-icon" aria-hidden="true">♧</span>
+              <span>Student</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="teacher">
+              <span class="role-icon" aria-hidden="true">▤</span>
+              <span>Teacher</span>
+            </label>
+          </fieldset>
+          <label class="field-label" for="display-name">Your name</label>
+          <input id="display-name" class="text-input" name="name" autocomplete="name" value="Ava Patel" required>
+          <label class="field-label" for="password">Password</label>
+          <input id="password" class="text-input" name="password" type="password" autocomplete="current-password" minlength="6" required>
+          <label id="confirm-password-label" class="field-label" for="confirm-password" hidden>Confirm password</label>
+          <input id="confirm-password" class="text-input" name="confirmPassword" type="password" autocomplete="new-password" minlength="6" hidden>
+          <p id="auth-error" class="auth-error" role="alert" hidden></p>
+          <button id="auth-submit" class="button button-primary button-full" type="submit">Sign in <span aria-hidden="true">→</span></button>
+          <p class="demo-hint">Create a separate account for your student or teacher role.</p>
+        </form>
+      </section>
+
+      <section id="teacher-view" class="dashboard" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">TEACHER DASHBOARD</span>
+            <h1>Your classes</h1>
+            <p>Select a section to manage attendance.</p>
+          </div>
+          <div class="date-chip"><span class="status-dot"></span> Today’s attendance</div>
+        </div>
+        <div id="section-list" class="section-grid" aria-label="Class sections"></div>
+        <section id="roster-panel" class="roster-panel" hidden>
+          <div class="roster-heading">
+            <div>
+              <span class="eyebrow">CLASS ROSTER</span>
+              <h2 id="roster-title"></h2>
+              <p>Choose a subject, then update each student’s attendance.</p>
+            </div>
+            <label class="subject-select-wrap">
+              <span class="visually-hidden">Subject</span>
+              <select id="teacher-subject" class="text-input"></select>
+            </label>
+            <button id="delete-subject-button" class="button button-absent" type="button">Delete subject</button>
+          </div>
+          <div class="section-manager">
+            <label class="section-name-wrap">
+              <span class="visually-hidden">Section name</span>
+              <input id="section-name" class="text-input" type="text" placeholder="Section name">
+            </label>
+            <button id="save-section-name" class="button button-primary" type="button">Save name</button>
+          </div>
+          <p id="section-error" class="auth-error" role="alert" hidden></p>
+          <div class="subject-manager">
+            <label class="subject-add-wrap">
+              <span class="visually-hidden">New subject name</span>
+              <input id="new-subject" class="text-input" type="text" placeholder="Subject name">
+            </label>
+            <button id="add-subject-button" class="button button-primary" type="button">Add subject</button>
+          </div>
+          <p id="subject-error" class="auth-error" role="alert" hidden></p>
+          <div id="student-roster" class="student-roster"></div>
+        </section>
+      </section>
+
+      <section id="student-view" class="dashboard" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">STUDENT DASHBOARD</span>
+            <h1>Your subjects</h1>
+            <p>Choose a subject to check in or view your attendance.</p>
+          </div>
+          <div class="date-chip"><span class="status-dot"></span> Grade 10 · Section A</div>
+        </div>
+        <div id="subject-list" class="subject-grid" aria-label="Your subjects"></div>
+        <section id="checkin-panel" class="checkin-panel" hidden>
+          <div class="checkin-copy">
+            <span class="eyebrow">SUBJECT CHECK-IN</span>
+            <h2 id="checkin-title"></h2>
+            <p id="checkin-description">When you open a subject, Tap Link can check your current location. If you’re inside the demo zone, you’ll be marked present automatically.</p>
+          </div>
+          <div class="checkin-actions">
+            <div id="location-status" class="location-status" role="status" aria-live="polite">
+              <span class="location-icon" aria-hidden="true">◎</span>
+              <span>Location check starts when you select a subject.</span>
+            </div>
+            <div class="action-row">
+              <button id="location-button" class="button button-primary" type="button">Check location</button>
+              <button id="manual-present-button" class="button button-secondary" type="button">Mark present manually</button>
+            </div>
+          </div>
+          <div class="demo-banner">
+            <span aria-hidden="true">ⓘ</span>
+            <span>GPS uses the USTP CDO campus location (200 m radius). Verify the pin and test the boundary on site before relying on attendance records.</span>
+          </div>
+        </section>
+      </section>
+
+      <footer class="footer">Tap Link <span>·</span> Attendance made clear.</footer>
+    </main>
+    <script src="app.js" defer></script>
+  </body>
+</html>
